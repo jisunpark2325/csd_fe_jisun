@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     async enrollBusi () {
-      const busiData = {
+      this.$axios.post('/jisun/fe/businessMgmt',{
         busi_name: this.busi_name,
         busi_num: this.busi_num,
         busi_admin_name: this.busi_admin_name,
@@ -71,15 +71,22 @@ export default {
         busi_admin_phone: this.busi_admin_phone,
         busi_admin_type: this.busi_admin_type,
         busi_date: this.busi_date
-      }
-      const response = await registerBusi (busiData)
+      }.then(res => {
+        console.log('success to register new business!')
+        console.log(res)
+        alert('등록완료')
+      }).catch(err => {
+        console.log('failed to register new business!')
+        console.log(err)
+      })
+      /*const response = await registerBusi (busiData)
       if (response.status === 200) {
         console.log('success to register new business!')
         alert('등록했습니다!')
         this.$router.push('/contractMgmt')
       } else {
         alert(response.data)
-      }
+      }*/
     }
   }
 }

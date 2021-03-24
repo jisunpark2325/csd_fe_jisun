@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import RegisterBusi from '@/components/RegisterBusi'
-import RegisterCont from "../components/RegisterCont";
 
 Vue.use(Router)
 
@@ -24,9 +23,9 @@ export default new Router({
     }
   ]
 })
-
+/*
 function registerBusi (busiData) {
   return instance.post('businessMgmt', busiData)
 }
 
-export {registerBusi}
+export {registerBusi}*/
