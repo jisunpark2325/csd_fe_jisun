@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import RegisterBusi from "./RegisterBusi";
+import RegisterBusi from "./BusiAdd";
 
 export default {
   name: 'RegisterContract',

@@ -12,7 +12,7 @@ public class MainController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @PostMapping(value = "/businessMgmt")
+    @GetMapping(value = "/businessMgmt")
     @ResponseBody
     public void businessMgmt(@RequestBody TestBusi busi){
         log.info(busi.toString());
