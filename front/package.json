@@ -11,12 +11,14 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "local": "webpack-dev-server --env dev --config build/webpack.conf.custom.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
+    "dotenv": "^8.2.0",
     "vue": "^2.6.12",
     "vue-js-modal": "^2.0.0-rc.6",
     "vue-router": "^3.0.1",
