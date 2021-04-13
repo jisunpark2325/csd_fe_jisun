@@ -1,10 +1,10 @@
 <template>
-  <div class="modal-dialog">
+  <div>
     <div id="addBusiForm" style="max-width: 100rem; align-items: center;" align="center">
       <b-card title="사업자 추가">
         <b-row class="my-1">
           <b-col sm="4" style="align-items: center">
-            <label for='busi_name'>사업자 명 :</label>
+            <label for='busi_name'>사업자 명</label>
           </b-col>
           <b-col sm="7">
             <b-form-input id='busi_name' placeholder='kt ds' v-model="business.busi_name" :type="text"></b-form-input>
@@ -12,7 +12,7 @@
         </b-row>
         <b-row class="my-1">
           <b-col sm="4">
-            <label for='busi_num'>사업자 번호 :</label>
+            <label for='busi_num'>사업자 번호</label>
           </b-col>
           <b-col sm="7">
             <b-form-input id='busi_num' placeholder='00-000-00000' type='text'
@@ -21,7 +21,7 @@
         </b-row>
         <b-row class="my-1">
           <b-col sm="4">
-            <label for='busi_admin_name'>담당자 명 :</label>
+            <label for='busi_admin_name'>담당자 명</label>
           </b-col>
           <b-col sm="7">
             <b-form-input id='busi_admin_name' placeholder='Alice' type='text'
@@ -30,7 +30,7 @@
         </b-row>
         <b-row class="my-1">
           <b-col sm="4">
-            <label for='busi_admin_email'>담당자 이메일 :</label>
+            <label for='busi_admin_email'>담당자 이메일</label>
           </b-col>
           <b-col sm="7">
             <b-form-input id='busi_admin_email' type='email' placeholder='abc@kt.com'
@@ -39,7 +39,7 @@
         </b-row>
         <b-row class="my-1">
           <b-col sm="4">
-            <label for='busi_admin_phone'>담당자 연락처 :</label>
+            <label for='busi_admin_phone'>담당자 연락처</label>
           </b-col>
           <b-col sm="7">
             <b-form-input id='busi_admin_phone' placeholder='010-1111-2222' type='text'
@@ -48,7 +48,7 @@
         </b-row>
         <b-row class="my-1">
           <b-col sm="4">
-            <label for='busi_admin_type'>담당자 타입 :</label>
+            <label for='busi_admin_type'>담당자 타입</label>
           </b-col>
           <b-col sm="7">
             <b-form-select name='busi_admin_type' v-model="business.busi_admin_type"
@@ -57,7 +57,7 @@
         </b-row>
         <b-row class="my-1">
           <b-col sm="4">
-            <label for='busi_date'>등록일 :</label>
+            <label for='busi_date'>등록일</label>
           </b-col>
           <b-col sm="7">
             <b-form-input name='busi_date' id='busi_date' placeholder='20200322' type='date'
@@ -66,10 +66,10 @@
         </b-row>
         <b-form-group style="margin-top: 10px;">
           <b-button id='btn_addBusiPop' class="btn btn-info" @click="enrollBusi" style="margin: 10px;">
-            등록
+            추가
           </b-button>
           <b-button id='btn_cancleBusiPop' class="btn btn-danger disabled" @click="$emit('close')" style="margin: 10px;">
-            취소
+            닫기
           </b-button>
         </b-form-group>
       </b-card>
@@ -107,10 +107,8 @@ export default {
       busi.append('busi_admin_email', this.business.busi_admin_email)
       busi.append('busi_date', this.business.busi_date)
 
-      const postURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr:8080/business?'
-/*
-      const postURI = 'http://localhost:8082/jisun/business?'
-*/
+      const postURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/business?'
+/*      const postURI = 'http://localhost:8082/jisun/business?'*/
       axios.post(`${postURI}`, busi).then((response) => {
         if (response.status.toString() === '200') {
           alert('사업자 정보가 추가되었습니다!')

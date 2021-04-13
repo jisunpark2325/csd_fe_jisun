@@ -7,11 +7,35 @@
           사업자 리스트
         </h3>
       </div>
+      <b-navbar type="light" variant="light" align="center" style="display: grid; justify-content: right">
+        <b-nav-form>
+          <b-button @click="addPopup" id='btn_addBusi' type="button" class="btn btn-warning"
+                    style="margin-left: 10px; margin-right: 10px; font-weight: bold"> 추가
+          </b-button>
+          <!--<b-button class="btn btn-outline-info" @click="modiPopup" id='btn_modiBusi' variant="outline-success"
+                    style="margin-left: 10px; margin-right: 10px"> 수정
+          </b-button>-->
+          <!--<b-button @click="delPopup" id='btn_delBusi' type="button" class="btn btn-danger"
+                    style="margin-left: 10px; margin-right: 10px"> 삭제
+          </b-button>-->
+        </b-nav-form>
+      </b-navbar>
+      <div>
+        <b-navbar type="light" variant="light" margin="10px" style="align-items: center; justify-content: center">
+          <b-nav-form>
+            <b-form-input id='search_busi_name' placeholder='검색 할 사업자명을 입력하세요' type='text' v-model="search_busi_name"
+                          style="margin-left: 10px; margin-right: 10px; width: 50vh">{{search_busi_name}}</b-form-input>
+            <b-button @click="searchBusi" id="btn_searchBusi" type="button" variant="info"
+                      style="margin-left: 10px; margin-right: 10px"> 검색
+            </b-button>
+          </b-nav-form>
+        </b-navbar>
+      </div>
       <div style="margin-bottom: 20px;">
         <table class="table table-hover" align="center">
           <thead>
           <tr class="table-primary" style="font-weight: bold; color: white; font-size: medium">
-            <th scope="row">선택</th>
+            <th scope="row">번호</th>
             <th scope="row">사업자번호</th>
             <th scope="row">사업자명(회사)</th>
             <th scope="row">담당자명</th>
@@ -22,9 +46,9 @@
           </tr>
           </thead>
           <tbody>
-          <tr :key="index" v-for="(b,index) in business">
-            <td><input type="radio" id="rd_chk" name="rd_chk" v-model="rd_chk" style="float: left; margin-top: 1rem;">
-              <p style="color: white; float: left">{{ b.busi_code }}</p></td>
+          <tr :key="index" v-for="(b,index) in business" @click="modiPopup(b.busi_code)">
+            <td><a>{{ index }}
+              <p style="color: white; float: left" hidden>{{ b.busi_code }}</p></a></td>
             <td>{{ b.busi_num }}</td>
             <td>{{ b.busi_name }}</td>
             <td>{{ b.busi_admin_name }}</td>
@@ -40,30 +64,7 @@
       <div v-if="addOpen === true" id="md_addBusi" class="modal-dialog"></div>
       <div v-if="modiOpen === true" id="md_modiBusi"></div>
       <!-- search & add, modity, delete buttons -->
-      <div>
-        <b-navbar type="light" variant="light" margin="10px" style="align-items: center; justify-content: center">
-          <b-nav-form>
-            <b-form-input id='search_busi_name' placeholder='검색 할 사업자명을 입력하세요' type='text' v-model="search_busi_name"
-                          style="margin-left: 10px; margin-right: 10px; width: 50vh"></b-form-input>
-            <b-button @click="searchBusi" id="btn_searchBusi" type="button" variant="info"
-                      style="margin-left: 10px; margin-right: 10px"> 검색
-            </b-button>
-          </b-nav-form>
-        </b-navbar>
-        <b-navbar type="light" variant="light" align="center" style="display: flex; justify-content: center">
-          <b-nav-form>
-            <b-button @click="addPopup" id='btn_addBusi' type="button" variant="outline-primary"
-                      style="margin-left: 10px; margin-right: 10px"> 추가
-            </b-button>
-            <b-button class="btn btn-outline-info" @click="modiPopup" id='btn_modiBusi' variant="outline-success"
-                      style="margin-left: 10px; margin-right: 10px"> 수정
-            </b-button>
-            <b-button @click="delPopup" id='btn_delBusi' type="button" class="btn btn-danger"
-                      style="margin-left: 10px; margin-right: 10px"> 삭제
-            </b-button>
-          </b-nav-form>
-        </b-navbar>
-      </div>
+
     </b-card>
   </div>
 </template>
@@ -106,11 +107,12 @@ export default {
     return {
       addOpen: false,
       modiOpen: false,
+      search_busi_name: '',
       business: []
     }
   },
   created() {
-    const getURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr:8080/businesses?'
+    const getURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/businesses?'
 
 /*
     const getURI = 'http://localhost:8082/jisun/businesses?'
@@ -127,74 +129,52 @@ export default {
       this.addOpen = true
       this.$modal.show(BusiAdd, {
         modal: this.$modal
+      }, {
+        height: 'auto'
       })
     },
-    modiPopup: function () {
-      const checked = document.querySelector('input[name="rd_chk"]:checked')
-      if (checked === null) alert('수정할 사업자 레코드를 선택해주세요!')
-      else {
-        const busiCode = checked.nextElementSibling.textContent
-        console.log(busiCode)
-        this.modiOpen = true
-        this.$modal.show(BusiModify, {
-          modal: this.$modal,
-          'busiCode': busiCode
+    modiPopup: function (busiCode) {
+      console.log(busiCode)
+      this.modiOpen = true
+      this.$modal.show(BusiModify, {
+        modal: this.$modal,
+        'busiCode': busiCode
+      }, {
+        height: 'auto'
+      })
+    },
+
+  searchBusi: function () {
+/*
+    const busiName = document.getElementById('search_busi_name').value
+*/
+    console.log(this.search_busi_name)
+    if (this.search_busi_name === '') {
+      const getURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/businesses?'
+/*
+      const getURI = 'http://localhost:8082/jisun/businesses?'
+*/
+      axios.get(`${getURI}`)
+        .then((response) => {
+          console.log(response)
+          this.business = response.data
         })
-      }
-    },
-    delPopup: function () {
-      const checked = document.querySelector('input[name="rd_chk"]:checked')
-      if (checked === null) alert('삭제할 사업자 레코드를 선택해주세요!')
-      else if (confirm('해당 사업자 레코드를 삭제하시겠습니까?') === true) {
-        const busiName = checked.parentElement.nextElementSibling.nextElementSibling.textContent
-        console.log(busiName)
+        .catch(error => console.log(error))
+    } else {
 
-        const delURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr:8080/business?busi_name=' + busiName
-/*
-        const delURI = 'http://localhost:8082/jisun/business?busi_name=' + busiName
-*/
-        axios.delete(`${delURI}`)
-          .then((response) => {
-            console.log(response)
-            alert('삭제되었습니다!')
-          })
-          .catch(error => console.log(error))
-      } else {
-        window.close()
-      }
-    },
-    searchBusi: function () {
-      const busiName = document.getElementById('search_busi_name').value
-      console.log(busiName)
-      if (busiName === '') {
-        const getURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr:8080/businesses?'
-/*
-        const getURI = 'http://localhost:8082/jisun/businesses?'
-*/
-        axios.get(`${getURI}`)
-          .then((response) => {
-            console.log(response)
-            this.business = response.data
-          })
-          .catch(error => console.log(error))
-      } else {
-
-        const getURI02 = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr:8080/business?busi_name=' + busiName
-/*
-        const getURI02 = 'http://localhost:8082/jisun/business?busi_name=' + busiName
-*/
-        console.log(getURI02)
-        axios.get(`${getURI02}`)
-          .then((response) => {
-            console.log(response)
-            if (response.data === '') alert('해당 사업자 레코드가 없습니다!')
-            else this.business = response.data
-          })
-          .catch(error => console.log(error))
-      }
+      const getURI02 = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/business?busi_name=' + this.search_busi_name
+ /*     const getURI02 = 'http://localhost:8082/jisun/business?busi_name=' + this.search_busi_name*/
+      console.log(getURI02)
+      axios.get(`${getURI02}`)
+        .then((response) => {
+          console.log(response)
+          if (response.data === '') alert('해당 사업자 정보가 없습니다!')
+          else this.business = response.data
+        })
+        .catch(error => console.log(error))
     }
   }
-}
+}}
 </script>
 
 <style scoped>
@@ -203,3 +183,24 @@ export default {
 /*
 axios.get("http://deploy-business.jisun-test.svc:8080/jisun/businesses?").then(response => (this.business = response))
 */
+/*delPopup: function () {
+const checked = document.querySelector('input[name="rd_chk"]:checked')
+if (checked === null) alert('삭제할 사업자 레코드를 선택해주세요!')
+else if (confirm('해당 사업자 레코드를 삭제하시겠습니까?') === true) {
+const busiName = checked.parentElement.nextElementSibling.nextElementSibling.textContent
+console.log(busiName)
+
+const delURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/business?busi_name=' + busiName
+/!*
+const delURI = 'http://localhost:8082/jisun/business?busi_name=' + busiName
+*!/
+axios.delete(`${delURI}`)
+.then((response) => {
+console.log(response)
+alert('삭제되었습니다!')
+})
+.catch(error => console.log(error))
+} else {
+window.close()
+}
+},*/

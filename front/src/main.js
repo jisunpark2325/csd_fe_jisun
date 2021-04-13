@@ -7,10 +7,12 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './assets/bootstrap.min (1).css'
+import vueMoment from 'vue-moment'
+
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
-
+Vue.use(vueMoment)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

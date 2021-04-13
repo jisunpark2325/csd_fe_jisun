@@ -1,19 +1,16 @@
 <template>
-  <div class="list_plat" padding="10px">
-    <b-card text-variant="green" style="width: auto; margin-top: 10px; max-height: 150rem; align-items: center"
-            class="mb-2" border-variant="info" align="center">
+  <div class="list_plat" padding="10px" style="display: flex; justify-content: center">
+    <b-card text-variant="green" style="width:70%; margin-top: 10px; max-height: 150rem; align-items: center"
+            class="mb-2" align="center">
       <div style="margin-bottom: 10px">
         <h3 style="font-weight: bold">
           솔루션 리스트
         </h3>
       </div>
-      <b-navbar type="light" variant="light" align="center" style="display: flex; justify-content: center">
+      <b-navbar type="light" variant="light" align="center" style="display: grid; justify-content: right">
         <b-nav-form>
-          <b-button @click="addPopup" id='btn_addPlat' type="button" variant="outline-primary"
+          <b-button @click="addPopup" id='btn_addPlat' type="button" class="btn btn-warning"
                     style="margin-left: 10px; margin-right: 10px"> 추가
-          </b-button>
-          <b-button class="btn btn-outline-info" @click="modiPopup" id='btn_modiPlat' type="button" variant="outline-success"
-                    style="margin-left: 10px; margin-right: 10px"> 수정
           </b-button>
         </b-nav-form>
       </b-navbar>
@@ -21,14 +18,14 @@
         <table class="table table-hover" align="center" style="width: 50%">
           <thead>
           <tr class="table-primary" style="font-weight: bold; color: white; font-size: medium">
-            <th scope="row">선택</th>
+            <th scope="row">번호</th>
             <th scope="row">플랫폼 명</th>
           </tr>
           </thead>
           <tbody>
-          <tr :key="index" v-for="(p,index) in platform">
-            <td> <p style="color: white; float: left">{{ p.plat_code }}</p></td>
-            <td> <a v-on:click="modiPopup(p.plat_code)">{{ p.plat_name }}</a></td>
+          <tr :key="index" v-for="(p,index) in platform" @click="modiPopup(p.plat_code)">
+            <td> {{index}} <p style="color: white; float: left" hidden>{{ p.plat_code }}</p></td>
+            <td> {{ p.plat_name }}</td>
           </tr>
           </tbody>
         </table>
@@ -118,10 +115,8 @@ export default {
 /*
     const getURI = 'http://csd-platform.licensemgmt.svc:8080/platforms?'
 */
-    let getURI = 'http://localhost:8081/jisun/platforms?'
-/*
-    let getURI = 'http://csd-platform-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr:8080/platforms?'
-*/
+/*    let getURI = 'http://localhost:8081/jisun/platforms?'*/
+    let getURI = 'http://csd-platform-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/platforms?'
 
     axios.get(`${getURI}`)
       .then((response) => {
@@ -134,7 +129,8 @@ export default {
     addPopup: function () {
       this.addOpen = true
       this.$modal.show(PlatAdd, {
-        modal: this.$modal
+        modal: this.$modal}, {
+        height: 'auto'
       })
     },
     modiPopup: function (platCode) {
@@ -142,7 +138,8 @@ export default {
       this.modiOpen = true
       this.$modal.show(PlatModify, {
         modal: this.$modal,
-        'platCode': platCode
+        'platCode': platCode}, {
+        height: 'auto'
       })
     }
   }
