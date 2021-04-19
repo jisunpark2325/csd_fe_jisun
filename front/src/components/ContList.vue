@@ -26,6 +26,7 @@
           <tr class="table-primary" style="font-weight: bold; color: white; font-size: medium">
             <th scope="row">번호</th>
             <th scope="row">솔루션</th>
+            <th scope="row">계약명</th>
             <th scope="row">사업자</th>
             <th scope="row">계약 시작일</th>
             <th scope="row">계약 만료일</th>

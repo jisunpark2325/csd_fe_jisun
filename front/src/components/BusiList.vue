@@ -112,11 +112,9 @@ export default {
     }
   },
   created() {
-    const getURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/businesses?'
+/*    const getURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/businesses?'*/
 
-/*
     const getURI = 'http://localhost:8082/jisun/businesses?'
-*/
     axios.get(`${getURI}`)
       .then((response) => {
         console.log(response)
@@ -145,15 +143,15 @@ export default {
     },
 
   searchBusi: function () {
+
+    let busiName = this.search_busi_name
+
+    console.log(busiName)
+    if (busiName === '') {
 /*
-    const busiName = document.getElementById('search_busi_name').value
-*/
-    console.log(this.search_busi_name)
-    if (this.search_busi_name === '') {
       const getURI = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/businesses?'
-/*
-      const getURI = 'http://localhost:8082/jisun/businesses?'
 */
+      const getURI = 'http://localhost:8082/jisun/businesses?'
       axios.get(`${getURI}`)
         .then((response) => {
           console.log(response)
@@ -162,8 +160,15 @@ export default {
         .catch(error => console.log(error))
     } else {
 
-      const getURI02 = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/business?busi_name=' + this.search_busi_name
- /*     const getURI02 = 'http://localhost:8082/jisun/business?busi_name=' + this.search_busi_name*/
+      if (busiName.includes(' ')){
+        console.log('search busi name has space')
+        busiName = busiName.replace(/ /gi, '%20')
+      }
+
+
+      console.log(busiName)
+/*      const getURI02 = 'http://csd-business-licensemgmt.c01-okd.cz-tb.paas.kt.co.kr/business?busi_name=' + busiName*/
+      const getURI02 = 'http://localhost:8082/jisun/business?busi_name=' + busiName
       console.log(getURI02)
       axios.get(`${getURI02}`)
         .then((response) => {

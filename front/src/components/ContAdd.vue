@@ -83,8 +83,8 @@
             <label for='cont_all_price'>계약 총 금액(원)</label>
           </b-col>
           <b-col sm="7">
-            <b-form-input id='cont_all_price' type='number' placeholder='0'
-                          v-model="contract.cont_all_price" value="0">
+            <b-form-input id='cont_all_price' type='text' placeholder='0'
+                          v-model="comma(contract.cont_all_price)" value="0">
             </b-form-input>
           </b-col>
         </b-row>
@@ -155,6 +155,12 @@ export default {
     console.log('=== ContAdd.vue ===')
     console.log('platform - ', this.platform)
     console.log('business - ', this.business)
+  },
+  watch: {
+    comma: function (price) {
+      console.log('comma - str : ', price)
+      return price.toString().replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
+    }
   },
   methods: {
     enrollCont: function () {
